@@ -1,0 +1,83 @@
+﻿Binary WeightなDNNを試し、学習推定はほぼ性能が分かってきたかな
+正解率はCifar10で80%以上、MNISTでは99%以上までBinaryWeightでも達成できそう
+
+Cifar10のデータセットをみる限り、実用的では無いのは明らか;^)
+MNISTでは、、、なににつかうのだろうか？
+
+[■Darknetでの学習]
+DarknetのWebに従い、VOCデータセットでの学習を試す
+Darknetではlinux版が一般的だが、VirtualBoxでは遅い
+
+[■Windows版Darknetってどうなの]
+
+Windows版のDarknetがころがっているので試す、、、GPUも導入できるかも
+
+git clone https://github.com/AlexeyAB/darknet.git
+
+コンパイラはVisual Studio Community
+としたがまるでslnを認識してくれない、、、数時間格闘、、、あきらめたぁ
+
+src/以下のソースはたっくさん修正が入っているなぁ～Windows向けの修正だろうなぁ
+
+[■mingwでコンパイル]
+
+cmdのコンソールからchocoでインストール
+choco install mingw
+choco install msys2
+
+cmderに切り替えて、調べてみると、
+
+gccとかld、arなんかも
+/c/tools/mingw64/bin/
+
+include系は
+/c/tools/mingw64/x86_64-w64-mingw32/include/
+
+一通り入ったのでPATHを通す
+export PATH=/c/tools/mingw64/bin/:$PATH
+
+コンパイルへ、
+
+MakefileのCFLAGSに
+CFLAGS+=/c/tools/mingw64/x86_64-w64-mingw32/include/
+
+と修正してからコンパイルしてみる
+
+src/gettimeofday.h
+でtime.hが読めないとかエラー、、、;-<
+#include < time.h >
+↓
+#include <time.h>
+スペースを取ると読み込めるが今度はtimezoneの二重定義でエラー
+struct timezone
+{
+...
+}
+↑をコメントアウト、、、;-<
+
+これでコンパイル通りました:-)
+
+[■起動 @Cmder on Windows]
+./darknet.exe
+usage: C:\Users\kenji\shared\Darknet\OnWindows\darknet\darknet.exe <function>
+kenji@kenji-PC ~/shared/Darknet/OnWindows/darknet (master)
+
+それらしく動いてます:-)
+
+[■Webに従いいつものdarknetのテスト]
+./darknet imtest data/eagle.jpg
+C1.png
+とかできてる:-)
+
+[■tiny-yoloを動かす]
+Webに従い
+./darknet detect cfg/yolo.cfg yolo.weights data/dog.jpg
+OpenCVが一緒にコンパイルされていなぁ～い、とか警告されますが、
+いつものように、
+predictions.png
+Windowsフォトビューアーで見てみると、
+bicycle, truck dog,,,出来ましたぁ～OKOK
+
+Windowsで動いちゃったぁ:-)
+
+CUDAとか、OPenCVとか、どうなるんだろうかぁ
