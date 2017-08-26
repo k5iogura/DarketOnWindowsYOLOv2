@@ -59,8 +59,7 @@ struct timezone
 
 [■起動 @Cmder on Windows]
 ./darknet.exe
-usage: C:\Users\kenji\shared\Darknet\OnWindows\darknet\darknet.exe <function>
-kenji@kenji-PC ~/shared/Darknet/OnWindows/darknet (master)
+usage: darknet.exe <function>
 
 それらしく動いてます:-)
 
