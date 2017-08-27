@@ -49,7 +49,7 @@ usage: darknet.exe <function>
 動いた、、、うっそぉ～
 コマンドとDLLどっちもPATHに入れるとは、、、 PATH変数がてんこりになるなぁ～
 
-[■]
+[■Windows版Darknetの性能]
 ではWebに従ってテスト、
 darknet detector test cfg/voc.data cfg/tiny-yolo-voc.cfg tiny-yolo-voc.weights data/dog.jpg
 
@@ -78,3 +78,7 @@ bicycle: 24%
 dog: 79%                                                                                     
 
 ちゃんとウィンドウも張られたし、ESCで抜けるcvWaitKey()も動いているらしい
+
+darknet detector demo cfg/coco.data cfg/yolo.cfg yolo.weights
+これでカメラIFでのYOLOは、、、0.1FPS 遅いがCPUオンリーなんでこんなもんか
+
