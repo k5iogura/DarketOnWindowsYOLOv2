@@ -1,8 +1,9 @@
-﻿Binary WeightなDNNを試し、学習推定はほぼ性能が分かってきたかな
+﻿https://github.com/k5iogura/DarketOnWindowsYOLOv2
+↑Binary WeightなDNNを試し、学習推定はほぼ性能が分かってきたかな
 正解率はCifar10で80%以上、MNISTでは99%以上までBinaryWeightでも達成できそう
 
 Cifar10のデータセットをみる限り、実用的では無いのは明らか;^)
-MNISTでは、、、なににつかうのだろうか？
+MNISTは、、、なににつかうのだろうか？
 
 [■Darknetでの学習]
 DarknetのWebに従い、VOCデータセットでの学習を試す
@@ -11,12 +12,15 @@ Darknetではlinux版が一般的だが、VirtualBoxでは遅い
 [■Windows版Darknetってどうなの]
 
 Windows版のDarknetがころがっているので試す、、、GPUも導入できるかも
+http://tadaoyamaoka.hatenablog.com/entry/2017/03/14/212839
 
 git clone https://github.com/AlexeyAB/darknet.git
 
 コンパイラはVisual Studio Community
 としたがまるでslnを認識してくれない、、、数時間格闘、、、あきらめたぁ
 
+Makefileを覗くとふつーのmakeでもコンパイルできるかもしれないと思える
+mingwでコンパイルを試す、、、;-<
 src/以下のソースはたっくさん修正が入っているなぁ～Windows向けの修正だろうなぁ
 
 [■mingwでコンパイル]
