@@ -39,9 +39,18 @@ export PATH=/c/tools/mingw64/bin/:$PATH
 コンパイルへ、
 
 MakefileのCFLAGSに
-CFLAGS+=/c/tools/mingw64/x86_64-w64-mingw32/include/
+CFLAGS+=-IC:/tools/mingw64/x86_64-w64-mingw32/include/
 
 と修正してからコンパイルしてみる
+
+[※パス表記の方法　CmderとMakefile]
+Cmder上でのCドライブルートは、/c/なのだが、makeコマンドはこれを理解しない
+Makefileには/c/ではなくC:/で表記するとmakeコマンドは理解できる
+bashのPATH変数は/c/を理解するしC:/も理解する
+ls C:/
+ls /c/
+どちらもルート直下を参照できる
+[※end]
 
 src/gettimeofday.h
 でtime.hが読めないとかエラー、、、;-<
