@@ -89,3 +89,22 @@ bicycle, truck dog,,,出来ましたぁ～OKOK
 Windowsで動いちゃったぁ:-)
 
 CUDAとか、OPenCVとか、どうなるんだろうかぁ
+
+[■Windows版Darknetでyolo2.0の学習開始]
+
+https://pjreddie.com/darknet/yolo/
+↑ここの"Training YOLO On VOC"を頼りにデータをそろえる
+
+Pre-Trained な重みを使えと出ているが、1から重みを作ってみる
+
+./darknet yolo train cfg/yolo.2.0.cfg
+/deta/voc/train.txtが見つからないエラー
+
+src/yolo.cにイメージのパスがハードコーディングされている、、、びっくり
+修正
+make
+
+動き出したみたい
+
+Logを眺めるが、QNAN...とか数値になっていない結果が出てる
+150万枚の画像なんで、やってみるだけ無駄だけど、しばらく様子をみる
