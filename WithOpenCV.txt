@@ -1,0 +1,80 @@
+OpenCVと一緒にDarknetをビルドしてみる
+
+[■OpenCVのダウンロード]
+Windows版をダウンロードするが、Linuxなどとの違いは、build/以下に
+vc10 vc11 vc12
+とかWindowsのVisualStudioでコンパイルされたバイナリが入っているところ
+sources/以下でcmakeを使えば、ソースからコンパイルできるらしい
+
+cmake-guiを使ってPythonサポート、OpenCL、CUDAなどを外してMakefileを生成
+初めてGUIのcmakeを使ったが便利だな:-)
+
+OpenCV-3.2.0
+https://sourceforge.net/projects/opencvlibrary/?source=typ_redirect
+
+OpenCV-2.4.9
+https://sourceforge.net/projects/opencvlibrary/files/opencv-win/2.4.9/
+
+どちらのバージョンもC:/直下に置く
+make -j 2
+
+コンパイル成功:-)
+
+
+[■Darknetのビルド]
+OpenCVと一緒にビルドするためにMakefileを修正
+OPENCV=1
+として
+
+ifeq ($(OPENCV), 1)
+COMMON+= -DOPENCV
+CFLAGS+= -DOPENCV
+LDFLAGS+= -LC:/opencv/buildx/install/x64/mingw/lib -LC:/opencv/buildx/install/x64/mingw/lib -LC:/opencv/buildx/3rdparty/lib -lopencv_imgproc249 -lopencv_core249 -lopencv_highgui249 -LC:/OpenCV2.4MinGW/3rdparty/lib -llibjpeg -llibtiff -llibpng -llibjasper -lIlmImf
+COMMON+= -IC:/opencv-3.2.0/buildx/install/include
+endif
+
+lib/以下には*.aのstaticライブライが生成されている
+
+pkg-configを使いたいところだが、OpenCVをビルドしてもpkgconfigディレクトリが生成されない;-<
+で、手書きで
+
+make
+でけた
+darknet.exe: error while loading shared libraries: ?: cannot open shared object file: No such file or directory
+WindowsのLD_LIBRARY_PATH相当ってどうするんだろう、、、ググれば、PATHに入れるのね
+
+export PATH=$PATH:/c/opencv/buildx/install/x64/mingw/bin
+usage: darknet.exe <function>
+
+動いた、、、うっそぉ～
+コマンドとDLLどっちもPATHに入れるとは、、、 PATH変数がてんこりになるなぁ～
+
+[■]
+ではWebに従ってテスト、
+darknet detector test cfg/voc.data cfg/tiny-yolo-voc.cfg tiny-yolo-voc.weights data/dog.jpg
+
+$ darknet detector test cfg/voc.data cfg/tiny-yolo-voc.cfg tiny-yolo-voc.weights data/dog.jpg
+layer     filters    size              input                output                           
+    0 conv     16  3 x 3 / 1   416 x 416 x   3   ->   416 x 416 x  16                        
+    1 max          2 x 2 / 2   416 x 416 x  16   ->   208 x 208 x  16                        
+    2 conv     32  3 x 3 / 1   208 x 208 x  16   ->   208 x 208 x  32                        
+    3 max          2 x 2 / 2   208 x 208 x  32   ->   104 x 104 x  32                        
+    4 conv     64  3 x 3 / 1   104 x 104 x  32   ->   104 x 104 x  64                        
+    5 max          2 x 2 / 2   104 x 104 x  64   ->    52 x  52 x  64                        
+    6 conv    128  3 x 3 / 1    52 x  52 x  64   ->    52 x  52 x 128                        
+    7 max          2 x 2 / 2    52 x  52 x 128   ->    26 x  26 x 128                        
+    8 conv    256  3 x 3 / 1    26 x  26 x 128   ->    26 x  26 x 256                        
+    9 max          2 x 2 / 2    26 x  26 x 256   ->    13 x  13 x 256                        
+   10 conv    512  3 x 3 / 1    13 x  13 x 256   ->    13 x  13 x 512                        
+   11 max          2 x 2 / 1    13 x  13 x 512   ->    13 x  13 x 512                        
+   12 conv   1024  3 x 3 / 1    13 x  13 x 512   ->    13 x  13 x1024                        
+   13 conv   1024  3 x 3 / 1    13 x  13 x1024   ->    13 x  13 x1024                        
+   14 conv    125  1 x 1 / 1    13 x  13 x1024   ->    13 x  13 x 125                        
+   15 detection                                                                              
+Loading weights from tiny-yolo-voc.weights...Done!                                           
+data/dog.jpg: Predicted in 1.593000 seconds.                                                 
+car: 76%                                                                                     
+bicycle: 24%                                                                                 
+dog: 79%                                                                                     
+
+ちゃんとウィンドウも張られたし、ESCで抜けるcvWaitKey()も動いているらしい
