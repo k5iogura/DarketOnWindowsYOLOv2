@@ -1,9 +1,8 @@
-﻿https://github.com/k5iogura/DarketOnWindowsYOLOv2
-↑Binary WeightなDNNを試し、学習推定はほぼ性能が分かってきたかな
+﻿Binary WeightなDNNを試し、学習推定はほぼ性能が分かってきたかな
 正解率はCifar10で80%以上、MNISTでは99%以上までBinaryWeightでも達成できそう
 
 Cifar10のデータセットをみる限り、実用的では無いのは明らか;^)
-MNISTは、、、なににつかうのだろうか？
+MNISTでは、、、なににつかうのだろうか？
 
 [■Darknetでの学習]
 DarknetのWebに従い、VOCデータセットでの学習を試す
@@ -12,15 +11,12 @@ Darknetではlinux版が一般的だが、VirtualBoxでは遅い
 [■Windows版Darknetってどうなの]
 
 Windows版のDarknetがころがっているので試す、、、GPUも導入できるかも
-http://tadaoyamaoka.hatenablog.com/entry/2017/03/14/212839
 
 git clone https://github.com/AlexeyAB/darknet.git
 
 コンパイラはVisual Studio Community
 としたがまるでslnを認識してくれない、、、数時間格闘、、、あきらめたぁ
 
-Makefileを覗くとふつーのmakeでもコンパイルできるかもしれないと思える
-mingwでコンパイルを試す、、、;-<
 src/以下のソースはたっくさん修正が入っているなぁ～Windows向けの修正だろうなぁ
 
 [■mingwでコンパイル]
@@ -93,3 +89,22 @@ bicycle, truck dog,,,出来ましたぁ～OKOK
 Windowsで動いちゃったぁ:-)
 
 CUDAとか、OPenCVとか、どうなるんだろうかぁ
+
+[■Windows版Darknetでyolo2.0の学習開始]
+
+https://pjreddie.com/darknet/yolo/
+↑ここの"Training YOLO On VOC"を頼りにデータをそろえる
+
+Pre-Trained な重みを使えと出ているが、1から重みを作ってみる
+
+./darknet yolo train cfg/yolo.2.0.cfg
+/deta/voc/train.txtが見つからないエラー
+
+src/yolo.cにイメージのパスがハードコーディングされている、、、びっくり
+修正
+make
+
+動き出したみたい
+
+Logを眺めるが、QNAN...とか数値になっていない結果が出てる
+150万枚の画像なんで、やってみるだけ無駄だけど、しばらく様子をみる
