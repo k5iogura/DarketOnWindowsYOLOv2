@@ -1,0 +1,6 @@
+classes=3
+train = data/cifar/train3.list
+test  = data/cifar/test3.list
+labels= data/cifar/labels3.txt
+backup= backup3/
+top = 2
