@@ -43,6 +43,8 @@ def convert_annotation(year, image_id):
         xmlbox = obj.find('bndbox')
         b = (float(xmlbox.find('xmin').text), float(xmlbox.find('xmax').text), float(xmlbox.find('ymin').text), float(xmlbox.find('ymax').text))
         bb = convert((w,h), b)
+	if bb[2]<0.5 or bb[3]<0.5:
+	    return False
 	persons+=1
 	if persons == 1:
 	    go = True
