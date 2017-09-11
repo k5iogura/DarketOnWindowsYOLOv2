@@ -17,9 +17,9 @@ for f in files[:]:
     classn = parts[0][1]
     org_file = path+'/'+f
     if classn == 'automobile' or classn == 'truck':
-      new_file = path+'2/'+number+'_'+classn+'.png'
+      new_file = path+'3/'+number+'_'+classn+'.png'
     else:
-      new_file = path+'2/'+number+'_'+'background'+'.png'
+      new_file = path+'3/'+number+'_'+'background'+'.png'
     print(" cp {} {}".format(org_file,new_file))
     shutil.copy(org_file,new_file)
   else:
