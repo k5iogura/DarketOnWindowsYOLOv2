@@ -46,7 +46,7 @@ def convert_annotation(year, image_id):
 	if bb[2]<0.4 and bb[3]<0.4:
 	    return False
 	persons+=1
-	if persons == 1:
+	if persons <= 2:
 	    go = True
 	else:
 	    go = False
