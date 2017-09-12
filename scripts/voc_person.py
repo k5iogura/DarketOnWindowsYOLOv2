@@ -3,6 +3,9 @@ import pickle
 import os
 from os import listdir, getcwd
 from os.path import join
+import re
+import shutil
+from pdb import *
 
 sets=[('2012', 'train'), ('2012', 'val'), ('2007', 'train'), ('2007', 'val'), ('2007', 'test')]
 
@@ -55,6 +58,9 @@ def convert_annotation(year, image_id):
 
 wd = getcwd()
 
+ubar = re.compile('_')
+if not os.path.exists("VOCperson"):
+    os.mkdir("VOCperson")
 for year, image_set in sets:
     if not os.path.exists('VOCdevkit/VOC%s/labels/'%(year)):
         os.makedirs('VOCdevkit/VOC%s/labels/'%(year))
@@ -62,7 +68,13 @@ for year, image_set in sets:
     list_file = open('%s_%s_tmp.txt'%(year, image_set), 'w')
     for image_id in image_ids:
         if convert_annotation(year, image_id):
-            print('%s/VOCdevkit/VOC%s/JPEGImages/%s.jpg'%(wd, year, image_id))
+            org = '%s/VOCdevkit/VOC%s/JPEGImages/%s.jpg'%(wd, year, image_id)
+            new = '%s/VOCperson/%s_person.jpg'%(wd, ubar.sub('',image_id))
+            #print('%s/VOCdevkit/VOC%s/JPEGImages/%s.jpg'%(wd, year, image_id))
+            #print('%s/VOCperson/%s_person.jpg'%(wd, ubar.sub('',image_id)))
+            print("cp %s %s"%(org,new))
+            shutil.copy(org,new)
+            #set_trace()
             #list_file.write('%s/VOCdevkit/VOC%s/JPEGImages/%s.jpg\n'%(wd, year, image_id))
     list_file.close()
 
