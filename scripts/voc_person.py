@@ -36,24 +36,24 @@ def convert_annotation(year, image_id):
 
     go = False
     persons = 0
+    others  = 0
     for obj in root.iter('object'):
         difficult = obj.find('difficult').text
         cls = obj.find('name').text
         if cls != 'person' or cls not in classes or int(difficult) == 1:
-	    return False
-            #continue
-        cls_id = classes.index(cls)
-        xmlbox = obj.find('bndbox')
-        b = (float(xmlbox.find('xmin').text), float(xmlbox.find('xmax').text), float(xmlbox.find('ymin').text), float(xmlbox.find('ymax').text))
-        bb = convert((w,h), b)
-	if bb[2]<0.4 and bb[3]<0.4:
-	    return False
-	persons+=1
-	if persons <= 2:
-	    go = True
+	    others += 1
 	else:
-	    go = False
-        #out_file.write(str(cls_id) + " " + " ".join([str(a) for a in bb]) + '\n')
+	    persons+= 1
+            cls_id = classes.index(cls)
+            xmlbox = obj.find('bndbox')
+            b = (float(xmlbox.find('xmin').text), float(xmlbox.find('xmax').text), float(xmlbox.find('ymin').text), float(xmlbox.find('ymax').text))
+            bb = convert((w,h), b)
+	    if bb[2]<0.4 and bb[3]<0.4:
+	        persons-= 1
+    if persons <= 2 and others <=0:
+        go = True
+    else:
+        go = False
     return go
 
 wd = getcwd()
@@ -65,16 +65,10 @@ for year, image_set in sets:
     if not os.path.exists('VOCdevkit/VOC%s/labels/'%(year)):
         os.makedirs('VOCdevkit/VOC%s/labels/'%(year))
     image_ids = open('VOCdevkit/VOC%s/ImageSets/Main/%s.txt'%(year, image_set)).read().strip().split()
-    list_file = open('%s_%s_tmp.txt'%(year, image_set), 'w')
     for image_id in image_ids:
         if convert_annotation(year, image_id):
             org = '%s/VOCdevkit/VOC%s/JPEGImages/%s.jpg'%(wd, year, image_id)
             new = '%s/VOCperson/%s_person.jpg'%(wd, ubar.sub('',image_id))
-            #print('%s/VOCdevkit/VOC%s/JPEGImages/%s.jpg'%(wd, year, image_id))
-            #print('%s/VOCperson/%s_person.jpg'%(wd, ubar.sub('',image_id)))
             print("cp %s %s"%(org,new))
             shutil.copy(org,new)
-            #set_trace()
-            #list_file.write('%s/VOCdevkit/VOC%s/JPEGImages/%s.jpg\n'%(wd, year, image_id))
-    list_file.close()
 
