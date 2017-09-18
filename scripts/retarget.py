@@ -3,8 +3,8 @@ import sys
 import re
 import shutil
 
-path = 'data/cifar/test'
 path = 'data/cifar/train'
+path = 'data/cifar/test'
 files = os.listdir(path)
 print('{} files'.format(len(files)))
 
