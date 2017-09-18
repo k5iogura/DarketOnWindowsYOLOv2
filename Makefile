@@ -1,7 +1,7 @@
 GPU=0
 CUDNN=0
 OPENCV?=0
-DEBUG=0
+DEBUG?=0
 OPENMP=0
 LIBSO=0
 
@@ -42,7 +42,7 @@ ifeq ($(OPENCV), 1)
 COMMON+= -DOPENCV
 CFLAGS+= -DOPENCV
 LDFLAGS+= -LC:/opencv/buildx/install/x64/mingw/lib -LC:/opencv/buildx/install/x64/mingw/lib -LC:/opencv/buildx/3rdparty/lib -lopencv_imgproc249 -lopencv_core249 -lopencv_highgui249 -LC:/OpenCV2.4MinGW/3rdparty/lib -llibjpeg -llibtiff -llibpng -llibjasper -lIlmImf
-COMMON+= -IC:/opencv-3.2.0/buildx/install/include
+COMMON+= -IC:/opencv/buildx/install/include
 #LDFLAGS+= `pkg-config --libs opencv` 
 #COMMON+= `pkg-config --cflags opencv` 
 endif
