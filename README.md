@@ -6,14 +6,14 @@ not only Visual C++(VS2013 community) but also mingw-gcc,
 sorry unsupporting GPU.  
 
 additional support network,  
-*cfg/cifar_minin.cfg training*
+*cfg/cifar_minin.cfg training*  
   this is minmum NiN as 1 3x3 conv + 3 1x1 layer  
 
 ./darknet classifier train data/cifar.data5 cfg/cifar_minin.cfg  
 
-*testing*
+*testing*  
 ./darknet classifier test data/cifar.data5 cfg/cifar_minin.cfg backup5/cifar_minin.weights  
 
-*demo*
+*demo*  
 ./darknet classifier demo data/cifar.data5 cfg/cifar_minin.cfg backup5/cifar_minin.weights -c 0  
 
