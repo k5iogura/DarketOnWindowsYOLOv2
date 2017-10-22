@@ -1,0 +1,3 @@
+[submodule "AlexeyAB/darknet"]
+	path = AlexeyAB/darknet
+	url = https://github.com/AlexeyAB/darknet.git
