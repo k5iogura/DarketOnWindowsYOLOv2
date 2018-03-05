@@ -97,7 +97,7 @@ void *detect_in_thread(void *ptr)
     images[demo_index] = det;
     det = images[(demo_index + FRAMES/2 + 1)%FRAMES];
 	ipl_images[demo_index] = det_img;
-	det_img = ipl_images[(demo_index + FRAMES / 2 + 1) % FRAMES];
+	//det_img = ipl_images[(demo_index + FRAMES / 2 + 1) % FRAMES];
     demo_index = (demo_index + 1)%FRAMES;
 	    
 	//draw_detections(det, l.w*l.h*l.n, demo_thresh, boxes, probs, demo_names, demo_alphabet, demo_classes);

@@ -7,6 +7,9 @@
 #include <string.h>
 #include <math.h>
 #include "box.h"
+#ifdef OPENCV
+#include "opencv2/highgui/highgui_c.h"
+#endif
 
 typedef struct {
     int h;
@@ -17,6 +20,7 @@ typedef struct {
 
 float get_color(int c, int x, int max);
 void flip_image(image a);
+image get_image_from_stream(CvCapture *cap);
 void draw_box(image a, int x1, int y1, int x2, int y2, float r, float g, float b);
 void draw_box_width(image a, int x1, int y1, int x2, int y2, int w, float r, float g, float b);
 void draw_bbox(image a, box bbox, int w, float r, float g, float b);
@@ -45,6 +49,7 @@ void hsv_to_rgb(image im);
 void rgbgr_image(image im);
 void constrain_image(image im);
 void composite_3d(char *f1, char *f2, char *out, int delta);
+image letterbox_image(image im, int w, int h);
 int best_3d_shift_r(image a, image b, int min, int max);
 
 image grayscale_image(image im);
