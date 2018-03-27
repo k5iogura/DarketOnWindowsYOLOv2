@@ -104,14 +104,15 @@ void demo_regressor(char *datacfg, char *cfgfile, char *weightfile, int cam_inde
         box.y = predictions[3];               //add
         box.w = predictions[1];               //add
         box.h = predictions[1];               //add
-        draw_bbox(in, box, 2, 0, 255,255);    //add
+        if(predictions[0]>-0.40)                //add
+            draw_bbox(in, box, 2, 0, 255,255);    //add
         show_image(in, "Regressor");          //mod flow
 
         printf("\033[2J");
         printf("\033[1;1H");
         printf("\nFPS:%.0f\n",fps);
 
-        printf("People: %f\n", predictions[0]);
+        printf("People: %f   %.3f (%.3f %.3f)\n", predictions[0],predictions[1],predictions[2],predictions[3]);
 
         free_image(in_s);
         free_image(in);

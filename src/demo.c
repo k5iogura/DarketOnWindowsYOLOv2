@@ -125,6 +125,17 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     demo_classes = classes;
     demo_thresh = thresh;
     printf("Demo\n");
+
+    // move to here from original placement of cvCaptureFromCAM for debug segmentation with out gdb.
+    fprintf(stderr,"get camera %d\n",cam_index);
+    if(filename){
+        printf("video file: %s\n", filename);
+        cap = cvCaptureFromFile(filename);
+    }else{
+        cap = cvCaptureFromCAM(cam_index);
+    }
+    fprintf(stderr,"get camera done.\n");
+
     net = parse_network_cfg(cfgfile);
     if(weightfile){
         load_weights(&net, weightfile);
@@ -132,13 +143,6 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     set_batch_network(&net, 1);
 
     srand(2222222);
-
-    if(filename){
-        printf("video file: %s\n", filename);
-        cap = cvCaptureFromFile(filename);
-    }else{
-        cap = cvCaptureFromCAM(cam_index);
-    }
 
     if(!cap) error("Couldn't connect to webcam.\n");
 
@@ -168,6 +172,7 @@ void demo(char *cfgfile, char *weightfile, float thresh, int cam_index, const ch
     det = in;
     det_s = in_s;
 
+    fprintf(stderr,"demo ready.\n");
     for(j = 0; j < FRAMES/2; ++j){
         fetch_in_thread(0);
         detect_in_thread(0);

@@ -607,7 +607,7 @@ network parse_network_cfg(char *filename)
     size_t workspace_size = 0;
     n = n->next;
     int count = 0;
-    free_section(s);
+    //free_section(s);
     fprintf(stderr, "layer     filters    size              input                output\n");
     while(n){
         params.index = count;
@@ -671,7 +671,7 @@ network parse_network_cfg(char *filename)
         option_unused(options);
         net.layers[count] = l;
         if (l.workspace_size > workspace_size) workspace_size = l.workspace_size;
-        free_section(s);
+        //free_section(s);  //add for debug
         n = n->next;
         ++count;
         if(n){

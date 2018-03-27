@@ -556,6 +556,7 @@ void run_detector(int argc, char **argv)
         int classes = option_find_int(options, "classes", 20);
         char *name_list = option_find_str(options, "names", "data/names.list");
         char **names = get_labels(name_list);
+        fprintf(stderr,"DEMO go\n");
         demo(cfg, weights, thresh, cam_index, filename, names, classes, frame_skip, prefix, out_filename);
     }
 }
