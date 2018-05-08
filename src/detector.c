@@ -394,7 +394,8 @@ void validate_detector_recall(char *datacfg, char *cfgfile, char *weightfile)
     int m = plist->size;
     int i=0;
 
-	float thresh = .2;// .001;
+	//float thresh = .2;// .001;
+	float thresh = .001;
     float iou_thresh = .5;
     float nms = .4;
 
